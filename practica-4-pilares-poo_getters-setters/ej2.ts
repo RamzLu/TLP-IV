@@ -4,7 +4,7 @@
 class CuentaBancaria {
   titular: string;
   private saldo: number; // cantidad de plata que hay dentro
-  // la palabra clave es como ponerle un candado de seguridad, es decir nadie de afuera puede acceder
+  // la palabra private es como ponerle un candado de seguridad, es decir nadie de afuera puede acceder
   // y cambiar el numero directamente y solo las funciones autorizadas del banco
   private historial: string[]; //"libreta" con lista ([]) de movimientos (depositos, retiros etc)
 
