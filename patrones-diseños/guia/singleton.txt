@@ -1,0 +1,30 @@
+class AdminInventario {
+  private static instancia: AdminInventario;
+  private inventario: { [producto: string]: number } = {};
+
+  private constructor() {}
+
+  public static obtenerInstancia(): AdminInventario {
+    if (!AdminInventario.instancia) {
+      AdminInventario.instancia = new AdminInventario();
+    }
+    return AdminInventario.instancia;
+  }
+
+  public agregarProducto(producto: string, stock: number): void {
+    this.inventario[producto] = stock;
+  }
+
+  public listarProductos(): { [producto: string]: number } {
+    return this.inventario;
+  }
+}
+
+const admin1 = AdminInventario.obtenerInstancia();
+const admin2 = AdminInventario.obtenerInstancia();
+
+admin1.agregarProducto("Camiseta", 50);
+admin2.agregarProducto("Pantalón", 30);
+
+console.log(admin1 === admin2);
+console.log(admin1.listarProductos());

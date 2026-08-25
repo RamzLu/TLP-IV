@@ -1,0 +1,26 @@
+class MongoDB {
+  public connectDB(): string {
+    return "Conectado a MongoDB";
+  }
+}
+
+class Postgres {
+  public connectPool(): string {
+    return "Conectado a Postgres";
+  }
+}
+
+class DatabaseAdapter {
+  private database: Postgres;
+
+  constructor() {
+    this.database = new Postgres();
+  }
+
+  public connectDB(): string {
+    return this.database.connectPool();
+  }
+}
+
+const adaptador = new DatabaseAdapter();
+console.log(adaptador.connectDB());
