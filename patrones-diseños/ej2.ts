@@ -1,40 +1,49 @@
-interface Equipo2 {
-  datelles(): string;
+interface EquipoB {
+  detalles(): string;
 }
 
-class Notebook implements Equipo2 {
-  constructor(
-    private nombre: string,
-    private ram: string,
-    private procesador: string,
-  ) {}
+class EquipoNotebook implements EquipoB {
+  private nombre: string;
+  private ram: string;
+  private procesador: string;
+  constructor(nombre: string, ram: string, procesador: string) {
+    this.nombre = nombre;
+    this.ram = ram;
+    this.procesador = procesador;
+  }
 
-  public datelles(): string {
-    return `Tipo: Notebook, nombre: ${this.nombre}, ram: ${this.ram}, procesador ${this.procesador}`;
+  public detalles(): string {
+    return `Tipo: Notebook, Nombre: ${this.nombre}, RAM: ${this.ram}, Procesador: ${this.procesador}`;
   }
 }
 
-class Desktop implements Equipo2 {
-  constructor(
-    private nombre: string,
-    private ram: string,
-    private procesador: string,
-  ) {}
+class EquipoDesktop implements EquipoB {
+  private nombre: string;
+  private ram: string;
+  private procesador: string;
+  constructor(nombre: string, ram: string, procesador: string) {
+    this.nombre = nombre;
+    this.ram = ram;
+    this.procesador = procesador;
+  }
 
-  public datelles(): string {
-    return `Tipo: Desktop, nombre: ${this.nombre}, ram: ${this.ram}, procesador ${this.procesador}`;
+  public detalles(): string {
+    return `Tipo: Desktop, Nombre: ${this.nombre}, RAM: ${this.ram}, Procesador: ${this.procesador}`;
   }
 }
 
-class Servidor implements Equipo2 {
-  constructor(
-    private nombre: string,
-    private ram: string,
-    private procesador: string,
-  ) {}
+class EquipoServidor implements EquipoB {
+  private nombre: string;
+  private ram: string;
+  private procesador: string;
+  constructor(nombre: string, ram: string, procesador: string) {
+    this.nombre = nombre;
+    this.ram = ram;
+    this.procesador = procesador;
+  }
 
-  public datelles(): string {
-    return `Tipo: Servidor, nombre: ${this.nombre}, ram: ${this.ram}, procesador ${this.procesador}`;
+  public detalles(): string {
+    return `Tipo: Servidor, Nombre: ${this.nombre}, RAM: ${this.ram}, Procesador: ${this.procesador}`;
   }
 }
 
@@ -44,16 +53,20 @@ class EquipoFactory {
     nombre: string,
     ram: string,
     procesador: string,
-  ): Equipo2 {
+  ): EquipoB {
     switch (tipo) {
       case "Notebook":
-        return new Notebook(nombre, ram, procesador);
+        return new EquipoNotebook(nombre, ram, procesador);
       case "Desktop":
-        return new Desktop(nombre, ram, procesador);
+        return new EquipoDesktop(nombre, ram, procesador);
       case "Servidor":
-        return new Servidor(nombre, ram, procesador);
+        return new EquipoDesktop(nombre, ram, procesador);
       default:
         throw new Error(`Tipo de equipo no valido`);
     }
   }
 }
+
+const factory = new EquipoFactory();
+const Notebook = factory.crearEquipo("Notebook", "Dell XPS", "16GB", "i7");
+console.log(Notebook.detalles());
