@@ -1,7 +1,15 @@
 import{ Request, Response } from 'express';
-import { Employee } from '../models/Employee';
+
+import { EmployeeService } from '../services/EmployeeService';
 
 export class EmployeeController {
+
+    private employeeService: EmployeeService
+
+    constructor(){
+        this.employeeService = new EmployeeService()
+    }
+     
     public createEmployee = async (req: Request, res: Response) => {
         try {
             const { name, position, baseSalary, yearsOfService } = req.body;
@@ -21,16 +29,12 @@ export class EmployeeController {
             ) {
             return res.status(400).json({ message: 'La antigüedad debe ser un entero mayor o igual a 0' });
             }
-        
-            const bonus = baseSalary * 0.02 * yearsOfService;
-            const finalSalary = baseSalary + bonus;
-        
-            const employee = await Employee.create({
+
+            const employee = await this.employeeService.createEmployee({
             name,
             position,
             baseSalary,
-            yearsOfService,
-            finalSalary
+            yearsOfService
             });
         
             console.log(`Empleado creado: ${employee.name} - salario final: ${employee.finalSalary}`);
@@ -41,28 +45,28 @@ export class EmployeeController {
         }
     }
 
-    public getEmployee = async (_req: Request, res: Response) => {
-         try {
-            const employees = await Employee.find().sort({ createdAt: -1 });
-            return res.json(employees);
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error interno del servidor' });
-        }
-    }
+    // public getEmployee = async (_req: Request, res: Response) => {
+    //      try {
+    //         const employees = await Employee.find().sort({ createdAt: -1 });
+    //         return res.json(employees);
+    //     } catch (error) {
+    //         console.error(error);
+    //         return res.status(500).json({ message: 'Error interno del servidor' });
+    //     }
+    // }
 
-    public getEmployeeId = async (req: Request, res: Response) => {
-        try {
-            const employee = await Employee.findById(req.params.id);
+    // public getEmployeeId = async (req: Request, res: Response) => {
+    //     try {
+    //         const employee = await Employee.findById(req.params.id);
         
-            if (!employee) {
-            return res.status(404).json({ message: 'Empleado no encontrado' });
-            }
+    //         if (!employee) {
+    //         return res.status(404).json({ message: 'Empleado no encontrado' });
+    //         }
         
-            return res.json(employee);
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error interno del servidor' });
-        }
-    }
+    //         return res.json(employee);
+    //     } catch (error) {
+    //         console.error(error);
+    //         return res.status(500).json({ message: 'Error interno del servidor' });
+    //     }
+    // }
 }
