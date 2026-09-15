@@ -2,7 +2,7 @@ import{ Request, Response } from 'express';
 import { Employee } from '../models/Employee';
 
 export class EmployeeController {
-    public async createEmployee(req: Request, res: Response){
+    public createEmployee = async (req: Request, res: Response) => {
         try {
             const { name, position, baseSalary, yearsOfService } = req.body;
         
@@ -41,7 +41,7 @@ export class EmployeeController {
         }
     }
 
-    public async getEmployee(_req: Request, res: Response){
+    public getEmployee = async (_req: Request, res: Response) => {
          try {
             const employees = await Employee.find().sort({ createdAt: -1 });
             return res.json(employees);
@@ -51,7 +51,7 @@ export class EmployeeController {
         }
     }
 
-    public async getEmployeeId(req: Request, res: Response){
+    public getEmployeeId = async (req: Request, res: Response) => {
         try {
             const employee = await Employee.findById(req.params.id);
         
