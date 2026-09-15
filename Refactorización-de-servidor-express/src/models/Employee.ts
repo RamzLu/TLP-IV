@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
+import { IEmployee } from '../interfaces/IEmployee';
 
-const employeeSchema = new Schema(
+const employeeSchema = new Schema<IEmployee>(
   {
     name: { type: String, required: true },
     position: { type: String, required: true },
@@ -11,4 +12,4 @@ const employeeSchema = new Schema(
   { timestamps: true }
 );
 
-export const Employee = model('Employee', employeeSchema);
+export const Employee = model<IEmployee>('Employee', employeeSchema);
