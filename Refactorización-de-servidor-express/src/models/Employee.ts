@@ -12,4 +12,4 @@ const employeeSchema = new Schema<IEmployee>(
   { timestamps: true }
 );
 
-export const Employee = model<IEmployee>('Employee', employeeSchema);
+export const EmployeeModel = model<IEmployee>('Employee', employeeSchema);
