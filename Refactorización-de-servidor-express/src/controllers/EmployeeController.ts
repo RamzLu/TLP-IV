@@ -1,4 +1,4 @@
-import{ Request, Response } from 'express';
+import{ NextFunction, Request, Response } from 'express';
 
 import { EmployeeService } from '../services/EmployeeService';
 
@@ -10,7 +10,7 @@ export class EmployeeController {
         this.employeeService = new EmployeeService()
     }
      
-    public createEmployee = async (req: Request, res: Response) => {
+    public createEmployee = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { name, position, baseSalary, yearsOfService } = req.body;
         
@@ -40,22 +40,20 @@ export class EmployeeController {
             console.log(`Empleado creado: ${employee.name} - salario final: ${employee.finalSalary}`);
             return res.status(201).json(employee);
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error interno del servidor' });
+            next(error)
         }
     }
 
-    public getEmployee = async (_req: Request, res: Response) => {
+    public getEmployee = async (_req: Request, res: Response, next: NextFunction) => {
          try {
             const employees = await this.employeeService.getEmployees()
             return res.json(employees);            return res.json(employees);
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error interno del servidor' });
+            next(error)
         }
     }
 
-public getEmployeeId = async (req: Request, res: Response) => {
+public getEmployeeId = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const employee = await this.employeeService.getEmployeeById(String(req.params.id)); //se pone string porque req.params puede tener multiples string y en EmployeeService define q solo recibe uno, entonces usamos el casteo de tipos 
 
@@ -65,8 +63,7 @@ public getEmployeeId = async (req: Request, res: Response) => {
 
       return res.json(employee);
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error interno del servidor' });
+        next(error)
     }
     }
 }
