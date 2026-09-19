@@ -48,26 +48,26 @@ export class EmployeeController {
 
     public getEmployee = async (_req: Request, res: Response) => {
          try {
-            const employees = await Employee.find().sort({ createdAt: -1 });
-            return res.json(employees);
+            const employees = await this.employeeService.getEmployees()
+            return res.json(employees);            return res.json(employees);
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
 
-    public getEmployeeId = async (req: Request, res: Response) => {
-        try {
-            const employee = await Employee.findById(req.params.id);
-        
-            if (!employee) {
-            return res.status(404).json({ message: 'Empleado no encontrado' });
-            }
-        
-            return res.json(employee);
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error interno del servidor' });
-        }
+public getEmployeeId = async (req: Request, res: Response) => {
+    try {
+      const employee = await this.employeeService.getEmployeeById(String(req.params.id)); //se pone string porque req.params puede tener multiples string y en EmployeeService define q solo recibe uno, entonces usamos el casteo de tipos 
+
+      if (!employee) {
+        return res.status(404).json({ message: 'Empleado no encontrado' });
+      }
+
+      return res.json(employee);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error interno del servidor' });
+    }
     }
 }

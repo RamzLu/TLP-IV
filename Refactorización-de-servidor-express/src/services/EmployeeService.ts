@@ -15,4 +15,12 @@ export class EmployeeService {
         
         return employee;
     }
+
+    public async getEmployees(){
+        return await Employee.find().sort({createAt: -1})
+    }
+
+    public async getEmployeeById(id: string){
+        return await Employee.findById(id);
+    }
 }
