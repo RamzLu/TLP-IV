@@ -60,7 +60,7 @@ npm run dev
 Abrí `http://localhost:3000/healthy` en el navegador. Deberías ver:
 
 ```json
-{"estado":"ok"}
+{ "estado": "ok" }
 ```
 
 En otra terminal probá el cálculo con `curl`:
@@ -74,7 +74,7 @@ curl -X POST http://localhost:3000/api/precios/calcular \
 Resultado esperado:
 
 ```json
-{"total":900}
+{ "total": 900 }
 ```
 
 En **PowerShell** también podés utilizar:
@@ -112,7 +112,7 @@ Leé la prueba que contiene `calcularPrecioFinal(1000, 150)`. ¿Qué comportamie
 La prueba inicial incluye la siguiente comprobación:
 
 ```typescript
-it('rechaza descuentos superiores al 100 %', () => {
+it("rechaza descuentos superiores al 100 %", () => {
   expect(() => calcularPrecioFinal(1000, 150)).toThrow(RangeError);
 });
 ```
@@ -147,16 +147,16 @@ Ahora deberían pasar las **cinco pruebas**. Si alguna falla, leé el resultado 
 
 Abrí `tests/precios.test.ts` y agregá, dentro de `describe`, nuevas pruebas para las siguientes reglas:
 
-| Entrada | Resultado esperado |
-| --- | --- |
-| Precio 1.000 y descuento 100 % | Total 0 |
-| Precio -100 y descuento 10 % | Lanza `RangeError` |
+| Entrada                        | Resultado esperado |
+| ------------------------------ | ------------------ |
+| Precio 1.000 y descuento 100 % | Total 0            |
+| Precio -100 y descuento 10 %   | Lanza `RangeError` |
 | Precio 1.000 y descuento -10 % | Lanza `RangeError` |
 
 Por ejemplo, para el caso límite:
 
 ```typescript
-it('devuelve cero con un descuento del 100 %', () => {
+it("devuelve cero con un descuento del 100 %", () => {
   expect(calcularPrecioFinal(1000, 100)).toBe(0);
 });
 ```
@@ -173,7 +173,7 @@ Abrí `tests/api.test.ts`. Las pruebas existentes utilizan Supertest:
 
 ```typescript
 const respuesta = await request(app)
-  .post('/api/precios/calcular')
+  .post("/api/precios/calcular")
   .send({ precio: 1000, descuento: 10 });
 
 expect(respuesta.status).toBe(200);
@@ -185,13 +185,13 @@ La llamada `request(app)` permite probar la aplicación sin iniciar manualmente 
 Agregá dentro del bloque `describe('API de precios', ...)` esta nueva prueba:
 
 ```typescript
-it('responde HTTP 400 ante un descuento inválido', async () => {
+it("responde HTTP 400 ante un descuento inválido", async () => {
   const respuesta = await request(app)
-    .post('/api/precios/calcular')
+    .post("/api/precios/calcular")
     .send({ precio: 1000, descuento: 150 });
 
   expect(respuesta.status).toBe(400);
-  expect(respuesta.body).toHaveProperty('error');
+  expect(respuesta.body).toHaveProperty("error");
 });
 ```
 
@@ -210,6 +210,7 @@ npm run typecheck
 Este comando usa TypeScript para analizar tipos, pero **no ejecuta las pruebas**. Por otra parte, Node puede ejecutar los archivos `.ts` compatibles directamente, pero no comprueba sus tipos durante esa ejecución.
 
 **Pregunta:** ¿por qué conviene utilizar tanto `typecheck` como `npm test`?
+El typecheck se ejecuta en el compilado antes de correr el codigo y verifica variables mal escritas, importar archivos inexistentes, pasar un string donde se esperaba un number y más rapdio que npm test
 
 ## 9. Integración continua: extensión opcional
 
@@ -226,14 +227,14 @@ En la versión actualizada del proyecto, el workflow utiliza `npm install`. Desp
 
 ## 10. Registro de resultados
 
-| Comprobación | Resultado | Observación |
-| --- | --- | --- |
-| Respuesta de `GET /healthy` | | |
-| Primera ejecución de `npm test` | | |
-| Corrección del servicio | | |
-| Nuevas pruebas unitarias | | |
-| Prueba de integración HTTP 400 | | |
-| Verificación `npm run typecheck` | | |
+| Comprobación                     | Resultado | Observación |
+| -------------------------------- | --------- | ----------- |
+| Respuesta de `GET /healthy`      |           |             |
+| Primera ejecución de `npm test`  |           |             |
+| Corrección del servicio          |           |             |
+| Nuevas pruebas unitarias         |           |             |
+| Prueba de integración HTTP 400   |           |             |
+| Verificación `npm run typecheck` |           |             |
 
 ## 11. Preguntas de cierre
 
